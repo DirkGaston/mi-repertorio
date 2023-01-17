@@ -17,15 +17,15 @@ System module to add, modify and delete songs stored in a local JSON named reper
 The server will need to make the following routes available:
 
 ● POST /songs : Receives the data corresponding to a song and adds it to the
-repertoire.
-● GET /songs : Returns a JSON with the songs registered in the repertoire.
-● PUT /songs/:id : Receives the data of a song to be edited and updates it by manipulating the JSON.
+repertoire. <br>
+● GET /songs : Returns a JSON with the songs registered in the repertoire. <br>
+● PUT /songs/:id : Receives the data of a song to be edited and updates it by manipulating the JSON. <br>
 ● DELETE /songs/:id : Receives the id of a song by queryString and deletes it from the
-repertoire.
+repertoire. <br>
 
 ## Installing **My Repertoire**
 
-To install <my_repertoire>, use the following command:
+To install **My Repertoire**, use the following command:
 
 ```bash
 $ npm install
@@ -33,7 +33,7 @@ $ npm install
 
 ## Using **My Repertoire**
 
-To use <my_repertoire>, just run the server with the following command:
+To use **My Repertoire**, just run the server with the following command:
 
 ```bash
 $ npm run dev
