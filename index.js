@@ -33,6 +33,8 @@ app.get("/songs", (req, res) => {
   }
 });
 
+// Defining data Schema for subsequent YUP validation
+
 const dataSchema = yup.object().shape({
   title: yup.string().required(),
   artist: yup.string().required(),
@@ -41,6 +43,8 @@ const dataSchema = yup.object().shape({
 
 app.post("/songs", (req, res) => {
   try {
+    // implementing server-side data validation
+
     dataSchema.validateSync(req.body);
 
     const newSong = { ...req.body, id: uuidv4() };
@@ -59,6 +63,7 @@ app.delete("/songs/:id", (req, res) => {
   if (!id) {
     return res.status(400).send({ message: "Missing id parameter" });
   }
+
   const songs = JSON.parse(fs.readFileSync(JSONData));
   const index = songs.findIndex((s) => s.id == id);
   if (index === -1) {
@@ -68,6 +73,8 @@ app.delete("/songs/:id", (req, res) => {
   fs.writeFileSync(JSONData, JSON.stringify(songs));
   res.status(204).send();
 });
+
+// Defining update data schema for validation
 
 const updateSchema = yup.object().shape({
   title: yup.string().notRequired(),
@@ -85,17 +92,15 @@ app.put("/songs/:id", (req, res) => {
       return res.status(400).send({ message: "Missing id parameter" });
     }
 
-    // Validate the request body using the dataSchema
+    // Validating the request body using the updateSchema
     updateSchema.validateSync(req.body);
 
-    // Get the list of songs and find the index of the song to update
     const songs = JSON.parse(fs.readFileSync(JSONData));
     const index = songs.findIndex((s) => s.id == id);
     if (index === -1) {
       return res.status(404).send({ message: "Song not found" });
     }
 
-    // Update the song at the specified index
     songs[index] = { ...songs[index], ...req.body };
     fs.writeFileSync(JSONData, JSON.stringify(songs));
     res.status(200).send({ message: "Song successfully edited!" });
