@@ -15,7 +15,9 @@
 
 🎵 🎵 **My Repertoire** is a basic song management system that allows you to register a list of songs with their corresponding keys. 🎵 🎵
 
-_This project was developed as the **Introduction to Express.js** assigment in the **Backend with Node and Express** course  for Desafio LATAM's **Full Stack with JavaScript** bootcamp
+_This project was developed as the **Introduction to Express.js** assigment in the **Backend with Node and Express** course  for Desafio LATAM's **Full Stack with JavaScript** bootcamp_
+
+[](https://i.giphy.com/media/1dK4drLrS3Kik38vhl/giphy.webp)
 
 ## Assignment Background 📖
 
