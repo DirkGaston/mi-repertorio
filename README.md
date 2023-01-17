@@ -23,7 +23,7 @@ repertoire.
 ● DELETE /songs/:id : Receives the id of a song by queryString and deletes it from the
 repertoire.
 
-## Installing <my_repertoire>
+## Installing **My Repertoire**
 
 To install <my_repertoire>, use the following command:
 
@@ -31,7 +31,7 @@ To install <my_repertoire>, use the following command:
 $ npm install
 ```
 
-## Using <my_repertoire>
+## Using **My Repertoire**
 
 To use <my_repertoire>, just run the server with the following command:
 
