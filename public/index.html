@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <div id="AddSong">
+      <h2 class="pt-3">&#119070; My Repertoire &#119070;</h2>
+
+      <div class="container pt-5 w-50">
+        <div>
+          <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Song:</label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="song"
+                value="Highway To Hell"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="email" class="col-sm-2 col-form-label">Artist: </label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="artist"
+                value="AC/DC"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="rut" class="col-sm-2 col-form-label">Key:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="key" value="A" />
+            </div>
+          </div>
+          <button onclick="newSong()" id="add" class="m-auto btn btn-success">
+            Add
+          </button>
+          <button onclick="editSong()" id="edit" class="m-auto btn btn-info">
+            Edit
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="SongList">
+      <hr />
+      <hr />
+      <h2>Song Table &#127908;</h2>
+
+      <div class="container pt-5 w-75">
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Song</th>
+              <th scope="col">Artist</th>
+              <th scope="col">Key</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="body"></tbody>
+        </table>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </body>
+</html>
+
+<style>
+  body {
+    text-align: center;
+    background: #283593;
+    color: white;
+  }
+</style>
+
+<script>
+  let url = "http://localhost:3000/songs";
+  let tbody = document.getElementById("body");
+  let song = document.getElementById("song");
+  let artist = document.getElementById("artist");
+  let key = document.getElementById("key");
+
+  let songs = [];
+  window.onload = getData();
+
+  async function getData() {
+    await axios.get(url).then((data) => {
+      songs = data.data;
+      tbody.innerHTML = "";
+      console.log(songs);
+      songs.forEach((s, i) => {
+        tbody.innerHTML += `
+        <tr>
+          <td>${i + 1}</td>
+          <td>${s.title}</td>
+          <td>${s.artist}</td>
+          <td>${s.key}</td>
+          <td>
+            <button class="btn btn-warning" onclick="prepareSong(${i},'${
+          s.id
+        }')">Edit</button>
+            <button class="btn btn-danger" onclick="deleteSong(${i},'${
+          s.id
+        }')">Delete</button>
+          </td>
+        </tr>
+      `;
+      });
+    });
+    song.value = "";
+    artist.value = "";
+    key.value = "";
+  }
+
+  function newSong() {
+    song;
+    artist;
+    key;
+
+    let data = {
+      title: song.value,
+      artist: artist.value,
+      key: key.value,
+    };
+    console.log(data);
+    axios.post(url, data).then(() => getData());
+  }
+
+  function deleteSong(i, id) {
+    axios.delete(url + "/" + id).then(() => {
+      alert("Song " + songs[i].title + " successfully deleted!");
+      getData();
+    });
+  }
+
+  function prepareSong(i, id) {
+    song.value = songs[i].titulo;
+    artist.value = songs[i].artist;
+    key.value = songs[i].key;
+    document
+      .getElementById("edit")
+      .setAttribute("onclick", `editSong('${id}')`);
+    document.getElementById("add").style.display = "none";
+    document.getElementById("edit").style.display = "block";
+  }
+
+  function editSong(id) {
+    axios
+      .put(url + "/" + id, {
+        id,
+        title: song.value,
+        artist: artist.value,
+        key: key.value,
+      })
+      .then(() => {
+        getData();
+        document.getElementById("add").style.display = "block";
+        document.getElementById("edit").style.display = "none";
+      });
+  }
+</script>
